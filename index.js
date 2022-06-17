@@ -35,7 +35,7 @@ var os = require("os");
 var hostname = os.hostname();
 console.log(hostname)
 let uri;
-uri = `mongodb+srv://amfb-user:5flAuf2bKTF3zcxT@cluster0.440bp.mongodb.net/?retryWrites=true&w=majority`;
+uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.440bp.mongodb.net/?retryWrites=true&w=majority`;
 // if(hostname !== 'localhost'){
 //     uri = `mongodb+srv://amfb-user:5flAuf2bKTF3zcxT@cluster0.440bp.mongodb.net/?retryWrites=true&w=majority`;
 //     // uri = 'mongodb://localhost:27017';// `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.rfbl8.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
@@ -80,6 +80,7 @@ async function run() {
         const inventoryCollection = posDB.collection('inventory');
         const grnCollection = posDB.collection('grn');
         const inventoryCountCollection = posDB.collection('inventoryCount');
+        const priceTableCollection = posDB.collection('priceTable');
 
 
         // get user
@@ -981,6 +982,8 @@ async function run() {
             res.send(result);
         })
 
+        // price table
+
     }
     finally {
         // client.close();
@@ -993,7 +996,7 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('POS API');
+    res.send('NEW POS API V-0.1.2');
 });
 
 app.listen(port, () => {
