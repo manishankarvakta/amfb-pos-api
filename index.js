@@ -1025,6 +1025,16 @@ async function run() {
       res.send(inventory);
     });
 
+    // price-table-by-code
+    app.get("/price-table-by-code/:code", async (req, res) => {
+      const code = req.params.code;
+      // const query =  {"article_code": {$all:code}};
+
+      const priceTable = await priceTableCollection.find({supplier: "7415"});
+
+      res.send({ priceTable });
+    });
+    
     // price-table
     app.get("/price-table-count", async (req, res) => {
       const count = await priceTableCollection.estimatedDocumentCount();
@@ -1063,9 +1073,9 @@ async function run() {
 
     // create price-table
     app.post("/price-table", async (req, res) => {
-      const inventory = req.body;
-      console.log("create new inventory", inventory);
-      const result = await priceTableCollection.insertOne(inventory);
+      const priceTable = req.body;
+      // console.log("create new priceTable", priceTable);
+      const result = await priceTableCollection.insertOne(priceTable);
       res.send(result.insertedId);
     });
 
@@ -1077,6 +1087,7 @@ async function run() {
       res.send(result);
     });
   } finally {
+
     // client.close();
   }
 }
